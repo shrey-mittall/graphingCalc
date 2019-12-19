@@ -70,9 +70,7 @@ public class CalculatorView implements ActionListener {
     }
 
     /**
-     * Sets up the whole frame to be used in the Calculator, sets it
-     * to be visible and of a set size with a grid layout of two
-     * columns and one row.
+    sets up the frame size and the amount of rows and columns in it
      */
     protected void createFrame() {
         frame = new JFrame("Graphing Calculator");
