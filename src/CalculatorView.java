@@ -4,6 +4,8 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
+import java.text.DecimalFormat;
+
 
 /**
  * @author Shrey Mittal and Suchit Bandaram
@@ -14,6 +16,8 @@ import java.util.Scanner;
 
 public class CalculatorView implements ActionListener {
     protected JFrame frame;
+
+    private static DecimalFormat df = new DecimalFormat("0.00");
 
     protected JTabbedPane tabs;
 
@@ -391,19 +395,20 @@ public class CalculatorView implements ActionListener {
                 tempFirstDer[i] = Double.valueOf(hold[i]);
             }
             for (int i = 0; i < tempFirstDer.length-1; i++) {
-                if((tempFirstDer[i] > 0 && tempFirstDer[i+1] < 0)){
-                    g.setColor(Color.MAGENTA);
-                    g.fillOval(i, 300 - Double.valueOf(coordinates[i]).intValue(), 7, 7);
-                    g.setFont(new Font("Serif",1,8));
-                    g.drawString("MAX",i+10, 290 - Double.valueOf(coordinates[i]).intValue());
-                    g.setColor(colors[n]);
-                }
-                else if((tempFirstDer[i] < 0 && tempFirstDer[i+1] > 0)){
-                    g.setColor(Color.BLUE);
-                    g.fillOval(i, 300 - Double.valueOf(coordinates[i]).intValue(), 7, 7);
-                    g.setFont(new Font("Serif",1,8));
-                    g.drawString("MIN",i+10, 290 - Double.valueOf(coordinates[i]).intValue());
-                    g.setColor(colors[n]);
+                if(Math.abs(tempFirstDer[i])-Math.abs(tempFirstDer[i+1]) > 0.0001) {
+                    if ((tempFirstDer[i] > 0 && tempFirstDer[i + 1] < 0)) {
+                        g.setColor(Color.MAGENTA);
+                        g.fillOval(i, 300 - Double.valueOf(coordinates[i]).intValue(), 7, 7);
+                        g.setFont(new Font("Serif", 1, 8));
+                        g.drawString("MAX", i + 10, 290 - Double.valueOf(coordinates[i]).intValue());
+                        g.setColor(colors[n]);
+                    } else if ((tempFirstDer[i] < 0 && tempFirstDer[i + 1] > 0)) {
+                        g.setColor(Color.BLUE);
+                        g.fillOval(i, 300 - Double.valueOf(coordinates[i]).intValue(), 7, 7);
+                        g.setFont(new Font("Serif", 1, 8));
+                        g.drawString("MIN", i + 10, 290 - Double.valueOf(coordinates[i]).intValue());
+                        g.setColor(colors[n]);
+                    }
                 }
             }
             g.setColor(colors[n]);
@@ -506,7 +511,7 @@ public class CalculatorView implements ActionListener {
         }
         double[] coordinatesDerivative = new double[coordinates.length - 1];
         for (int i = 0; i < coordinatesDerivative.length-1; i++) {
-            coordinatesDerivative[i] =  30.0 * (coordinatesDouble[i + 1] - coordinatesDouble[i]) / (double) (i + 1 - i);
+            coordinatesDerivative[i] = Double.valueOf(df.format( 30.0 * (coordinatesDouble[i + 1] - coordinatesDouble[i]) / (double) (i + 1 - i)));
         }
 
 

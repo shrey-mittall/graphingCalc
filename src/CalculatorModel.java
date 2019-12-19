@@ -3,28 +3,14 @@ import javax.script.ScriptEngine;
 import java.security.spec.RSAOtherPrimeInfo;
 import java.util.*;
 
-/**
- * CalculatorModel.java
- *
- * CS 204 Final Project- Graphing Calculator
- *
- * @author  Abby Lewis, Jamaica Lammi, Danny Hanson, Sam Keyes
- *
- * Class for implementing the correct button actions for the
- * calculator.  This class is the model, so it contains
- * everything the calculator needs to know about calculations.
- *
- */
+//correlates the correct actions for each of the buttons
 
 public class CalculatorModel {
     private ArrayList<String> currentEq;
     private ScriptEngine solver;
     private int size;
 
-    /**
-     * Constructor creates a script engine to solve equations,
-     * then initializes an ArrayList and sets the size to zero.
-     */
+    // init
     public CalculatorModel() {
         ScriptEngineManager mgr = new ScriptEngineManager();
         solver = mgr.getEngineByName("JavaScript");
@@ -613,4 +599,3 @@ public class CalculatorModel {
             return withParens;
         }
     }
-
