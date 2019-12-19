@@ -3,12 +3,18 @@
 public class CalculatorController {
     private CalculatorModel calcModel;
 
-    //new instance if calculator model
+    /**
+     * Creates a new instance of the CalculatorModel.
+     */
     public CalculatorController() {
         calcModel = new CalculatorModel();
     }
 
-    //if the enter button is clicked, then it will be graphed
+    /**
+     * Evaluates the equation once "Enter" is pushed,
+     * graphs the equation if "Graph" is pushed, or
+     * just interprets the given action
+     */
     public String[] update(String action) {
         if (action.equals("Graph")) {
             return calcModel.evaluateGraph();

@@ -74,7 +74,7 @@ public class CalculatorView implements ActionListener {
     }
 
     /**
-    sets up the frame size and the amount of rows and columns in it
+     sets up the frame size and the amount of rows and columns in it
      */
     protected void createFrame() {
         frame = new JFrame("Graphing Calculator");
@@ -189,7 +189,7 @@ public class CalculatorView implements ActionListener {
         JButton eight = new JButton(Integer.toString(8)); buttonList.add(eight);
         JButton nine = new JButton(Integer.toString(9)); buttonList.add(nine);
         JButton power = new JButton("^"); buttonList.add(power);
-        JButton squared = new JButton("x^2"); buttonList.add(squared);
+        //JButton squared = new JButton("x^2"); buttonList.add(squared);
         JButton sqrt = new JButton("sqrt"); buttonList.add(sqrt);
 
         // Row three of buttons on the keyboard
@@ -226,7 +226,7 @@ public class CalculatorView implements ActionListener {
         JButton integral = new JButton("∫"); buttonList.add(integral);
         JButton sndderivative = new JButton("d^2/dx"); buttonList.add(sndderivative);
         JButton defintegral = new JButton("∮"); buttonList.add(defintegral);
-        //JButton inflectionPoints = new JButton("P.O.I"); buttonList.add(inflectionPoints);
+        JButton ftc = new JButton("FTC"); buttonList.add(ftc);
 
         // Creates a new font so the buttons have larger text than everything else
         Font f = new Font("Dialogue", Font.PLAIN, 22);
@@ -299,6 +299,17 @@ public class CalculatorView implements ActionListener {
                 }
                 break;
             // If the user pushes the "Graph" button graph the equation if they are on the graphPanel
+            case "FTC":
+                String coordinates[] = calcControl.update("Graph");
+                Scanner s = new Scanner(System.in);
+                System.out.println("What is the b value");
+                int b  = s.nextInt();
+                System.out.println("What is the a value");
+                int a  = s.nextInt();
+
+                System.out.println(Double.valueOf(coordinates[b+300]).intValue() - Double.valueOf(coordinates[a+300]).intValue());
+
+
             case "Graph":
                 graph();
                 clearAll(newText,result);
@@ -320,14 +331,14 @@ public class CalculatorView implements ActionListener {
                 break;
 
             case "∮":
-                Scanner s = new Scanner(System.in);
+                Scanner scan = new Scanner(System.in);
                 System.out.println("What is the b value");
-                int b = s.nextInt();
+                int bb = scan.nextInt();
                 System.out.println("What is the a value");
-                int a = s.nextInt();
+                int aa = scan.nextInt();
 
-                String coordinates[] = calcControl.update("Graph");
-                System.out.println(definiteIntegral(a, b, 1, coordinates));
+                String coordinates1[] = calcControl.update("Graph");
+                System.out.println(definiteIntegral(aa, bb, 1, coordinates1));
             case "P.O.I":
                 //inflectionPoints();
                 break;
@@ -378,10 +389,10 @@ public class CalculatorView implements ActionListener {
         Random rand = new Random();
         int n = rand.nextInt(colors.length);
         for (int j = 0; j < coordinates.length - 1; j++) {
-            System.out.println(coordinates[j]);
             if (coordinates[j].equals("NaN") && j > 20 && j < coordinates.length - 20 && !coordinates[j + 5].equals("NaN") && !coordinates[j - 5].equals("NaN")) {
                 g.setColor(new Color(0, 148, 170));
-                g.drawOval(j, 300 - Double.valueOf(coordinates[j + 5]).intValue() - 3, 10, 10);
+                g.drawOval(j-5, 300 - Double.valueOf(coordinates[j + 5]).intValue() +10, 10, 10);
+                System.out.println("hole: ( " + (300-j) + "," + (Double.parseDouble(coordinates[j])/30) + ")");
                 continue;
             }
             else if (Double.valueOf(coordinates[j]) < 0 & Double.valueOf(coordinates[j + 1]) > 0) {
@@ -395,21 +406,23 @@ public class CalculatorView implements ActionListener {
                 tempFirstDer[i] = Double.valueOf(hold[i]);
             }
             for (int i = 0; i < tempFirstDer.length-1; i++) {
-                if(Math.abs(tempFirstDer[i])-Math.abs(tempFirstDer[i+1]) > 0.0001) {
+                //if(Math.abs(tempFirstDer[i])-Math.abs(tempFirstDer[i+1]) > 0.0001) {
                     if ((tempFirstDer[i] > 0 && tempFirstDer[i + 1] < 0)) {
                         g.setColor(Color.MAGENTA);
                         g.fillOval(i, 300 - Double.valueOf(coordinates[i]).intValue(), 7, 7);
                         g.setFont(new Font("Serif", 1, 8));
                         g.drawString("MAX", i + 10, 290 - Double.valueOf(coordinates[i]).intValue());
                         g.setColor(colors[n]);
+                        System.out.println("Relative Max: (" + (299-i) + "," + (Double.parseDouble(coordinates[i])/30) + ")");
                     } else if ((tempFirstDer[i] < 0 && tempFirstDer[i + 1] > 0)) {
                         g.setColor(Color.BLUE);
                         g.fillOval(i, 300 - Double.valueOf(coordinates[i]).intValue(), 7, 7);
                         g.setFont(new Font("Serif", 1, 8));
                         g.drawString("MIN", i + 10, 290 - Double.valueOf(coordinates[i]).intValue());
                         g.setColor(colors[n]);
+                        System.out.println("Relative Min: (" + (299-i) + "," + (Double.parseDouble(coordinates[i])/30) + ")");
                     }
-                }
+                //}
             }
             g.setColor(colors[n]);
             g.setStroke(new BasicStroke(3));
@@ -424,12 +437,11 @@ public class CalculatorView implements ActionListener {
 
                 if(canPOI && ((Math.abs(tempSecondDer[i] - tempSecondDer[i+1]) > 0.0000001) &&
                         ((tempSecondDer[i] >= 0 && tempSecondDer[i+1] <= 0)||(tempSecondDer[i] <= 0 && tempSecondDer[i+1] >= 0)))){
-                    System.out.println("meep");
                     g.setColor(integColor);
                     g.fillOval(i, 300 - Double.valueOf(coordinates[i]).intValue(), 7, 7);
                     g.setFont(new Font("Serif",1,8));
                     g.drawString("P.O.I",i+10, 290 - Double.valueOf(coordinates[i]).intValue());
-
+                    System.out.println("(" + (299-i) + "," + (Double.parseDouble(coordinates[i])/30) + ")");
                     g.setColor(colors[n]);
                 }
             }
@@ -536,28 +548,39 @@ public class CalculatorView implements ActionListener {
 
     public String[] indefiniteDerivative () {
         canPOI = false;
-            String[] coordinates = calcControl.update("Graph");
-            double[] coordinatesDouble = new double[coordinates.length];
+        String[] coordinates = calcControl.update("Graph");
+        double[] coordinatesDouble = new double[coordinates.length];
 
-            if (graphDisplayPanel.isShowing()) {
-
-                for (int i = 0; i < coordinates.length; i++) {
-                    coordinatesDouble[i] = Double.parseDouble(coordinates[i]);
-                }
-                double[] coordinatesDerivative = new double[coordinates.length - 1];
-                for (int i = 0; i < coordinatesDerivative.length; i++) {
-                    coordinatesDerivative[i] = Math.round(30 * (coordinatesDouble[i + 1] - coordinatesDouble[i]) / (i + 1 - i));
-                }
+        if (graphDisplayPanel.isShowing()) {
 
 
-                String[] derCoordinates = new String[coordinatesDerivative.length];
-                for (int i = 0; i < derCoordinates.length; i++) {
-                    derCoordinates[i] = coordinatesDerivative[i] + "";
-                }
-                return derCoordinates;
+            for (int i = 0; i < coordinates.length; i++) {
+                coordinatesDouble[i] = Double.parseDouble(coordinates[i]);
+
             }
-            return null;
+            double[] coordinatesDerivative = new double[coordinates.length - 1];
+            for (int i = 0; i < coordinatesDerivative.length; i++) {
+                if (coordinates[i].equals("NaN") && i > 20 && i < coordinates.length - 20 && !coordinates[i + 5].equals("NaN") && !coordinates[i - 5].equals("NaN")) {
+                    g.setColor(new Color(0, 148, 170));
+                    g.drawOval(i-20, 300 - Double.valueOf(coordinates[i + 5]).intValue(), 10, 10);
+                    System.out.println("(" + (i-300) + ", " + coordinates[i] + ")");
+                    continue;
+
+                }
+                else
+                    coordinatesDerivative[i] = Math.round(30 * (coordinatesDouble[i + 1] - coordinatesDouble[i]) / (i + 1 - i));
+            }
+
+
+            String[] derCoordinates = new String[coordinatesDerivative.length];
+            for (int i = 0; i < derCoordinates.length; i++) {
+                derCoordinates[i] = coordinatesDerivative[i] + "";
+            }
+
+            return derCoordinates;
         }
+        return null;
+    }
     public String[] definiteDerivative (String[] coordinates) {
         //canPOI = false;
         double[] coordinatesDouble = new double[coordinates.length];
@@ -583,12 +606,12 @@ public class CalculatorView implements ActionListener {
     }
 
 
-        public void clearAll (String[]newText, String result) {
+    public void clearAll (String[]newText, String result) {
         canPOI = true;
-            newText = calcControl.update(result);
-            inputEquation.setText(newText[0]);
-            graphEquation.setText(newText[0]);
-            equationDisplay.setText("Previous equations: ");
-        }
+        newText = calcControl.update(result);
+        inputEquation.setText(newText[0]);
+        graphEquation.setText(newText[0]);
+        equationDisplay.setText("Previous equations: ");
+    }
 
 }

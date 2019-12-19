@@ -93,7 +93,6 @@ public class CalculatorModel {
             case "ln()":
                 this.ln();
                 break;
-
             //euler's number
             case "e":
                 this.e();
@@ -574,27 +573,27 @@ public class CalculatorModel {
 
             currentEquation += eq.get(i);
         }
-            return currentEquation;
-        }
+        return currentEquation;
+    }
 
-        /**
-         * Adds in all missing parentheses
-         */
-        private String parenthesesChecker(String checkedEq){
-            String withParens = new String(checkedEq);
-            Stack<String> parenStack = new Stack<String>();
-            for (int i = 0; i < checkedEq.length(); i++) {
-                if (withParens.charAt(i) == '(') {
-                    parenStack.push("off cliff");
-                }
-                if (withParens.charAt(i) == ')' && !parenStack.empty()) {
-                    parenStack.pop();
-                }
+    /**
+     * Adds in all missing parentheses
+     */
+    private String parenthesesChecker(String checkedEq){
+        String withParens = new String(checkedEq);
+        Stack<String> parenStack = new Stack<String>();
+        for (int i = 0; i < checkedEq.length(); i++) {
+            if (withParens.charAt(i) == '(') {
+                parenStack.push("off cliff");
             }
-            while (!parenStack.empty()) {
-                withParens += ")";
+            if (withParens.charAt(i) == ')' && !parenStack.empty()) {
                 parenStack.pop();
             }
-            return withParens;
         }
+        while (!parenStack.empty()) {
+            withParens += ")";
+            parenStack.pop();
+        }
+        return withParens;
     }
+}
