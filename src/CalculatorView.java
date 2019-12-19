@@ -26,8 +26,8 @@ public class CalculatorView implements ActionListener {
     protected JPanel graphPanel;
     protected JPanel graphDisplayPanel;
 
-    protected JTextArea inputEquation;
-    protected JTextArea equationDisplay;
+    protected JTextArea inpEQ;
+    protected JTextArea eqDisp;
     protected JTextArea graphEquation;
 
     protected CalculatorController calcControl;
@@ -48,75 +48,52 @@ public class CalculatorView implements ActionListener {
     Color integColor = new Color(247, 0, 0);
 
 
-    /**
-     * Sets up the overall frame for the Calculator, the two
-     * panels where everything is displayed.
-     */
+
     public CalculatorView() {
 
-        // Creates a new font to be used within the frame
         displayFont = new Font("Dialogue", Font.PLAIN, 18);
 
-        // Creates the frame and correct panels and tabs so it displays properly
-        createFrame();
-        createGraphPanel();
-        createDisplayPanel();
-        createButtonPanel();
-        createTabs();
+        frameInit();
+        graphPanelInit();
+        displayPanelInit();
+        buttonPanelInit();
+        tabInitializer();
 
-        // Creates a new Calculator Controller for the Calculator
         calcControl = new CalculatorController();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
-        // Creates the graphics to draw the grid on the graph panel
         g = (Graphics2D) graphDisplayPanel.getGraphics();
     }
 
     /**
      sets up the frame size and the amount of rows and columns in it
      */
-    protected void createFrame() {
+    protected void frameInit() {
         frame = new JFrame("Graphing Calculator");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new GridLayout(1, 2));
         frame.setSize(1250, 720);
     }
 
-    /**
-     * Sets up the display panel, which is half the size of the frame,
-     * and has a null layout so we can place the text areas appropriately.
-     * <p>
-     * The display panel is where equations are entered in, evaluated, and graphed.
-     */
-    protected void createDisplayPanel() {
+
+    protected void displayPanelInit() {
         displayPanel = new JPanel();
         displayPanel.setLayout(null);
         frame.add(displayPanel, BorderLayout.WEST);
-        addToDisplayPanel();
+        fillDisplauPanel();
     }
 
-    /**
-     * Sets up the button panel, which is half the size of the frame,
-     * and has a grid layout to place all the buttons in a uniform way.
-     * <p>
-     * The button panel contains the keyboard for the Calculator.
-     */
-    protected void createButtonPanel() {
+
+    protected void buttonPanelInit() {
         buttonPanel = new JPanel();
         buttonPanel.setLayout(new GridLayout(6, 6));
         frame.add(buttonPanel, BorderLayout.EAST);
         addButtonsToButtonPanel();
     }
 
-    /**
-     * Sets up the graph panel, which is half the size of the frame,
-     * and has a null layout so we can add the graph to it in a
-     * specified location.
-     * <p>
-     * The graph panel contains equation to be graphed and the graph itself.
-     */
-    protected void createGraphPanel() {
+
+    protected void graphPanelInit() {
         graphPanel = new JPanel();
         graphPanel.setLayout(null);
         graphPanel.setVisible(true);
@@ -125,12 +102,8 @@ public class CalculatorView implements ActionListener {
 
     }
 
-    /**
-     * First creates the display panel tab, which allows the user to switch
-     * between the display and graph panels, then creates the button panel
-     * tab, which informs the user of the location of the keyboard.
-     */
-    protected void createTabs() {
+
+    protected void tabInitializer() {
         tabs = new JTabbedPane(JTabbedPane.TOP, JTabbedPane.WRAP_TAB_LAYOUT);
         tabs.addTab("Equations", displayPanel);
         tabs.addTab("Graph", graphPanel);
@@ -143,40 +116,27 @@ public class CalculatorView implements ActionListener {
         frame.add(tabs);
     }
 
-    /**
-     * Adds everything necessary for the display panel, including two
-     * text areas to display the current equation and previous equations
-     */
-    protected void addToDisplayPanel() {
-        // Creates the text area for the input equation and adds it to the displayPanel
-        inputEquation = new JTextArea("Enter equation here: ", 3, 5);
-        inputEquation.setLineWrap(true);
-        inputEquation.setEditable(false);
-        inputEquation.setFont(displayFont);
-        inputEquation.setBounds(0, 0, 600, 50);
-        displayPanel.add(inputEquation);
 
-        // Creates the text area for the previous equations and adds it to the displayPanel
-        equationDisplay = new JTextArea("Previous Equations: \n", 3, 5);
-        equationDisplay.setLineWrap(true);
-        equationDisplay.setEditable(false);
-        equationDisplay.setFont(displayFont);
-        equationDisplay.setBounds(0, 60, 600, 600);
-        displayPanel.add(equationDisplay);
+    protected void fillDisplauPanel() {
+        inpEQ = new JTextArea("Enter equation here: ", 3, 5);
+        inpEQ.setLineWrap(true);
+        inpEQ.setEditable(false);
+        inpEQ.setFont(displayFont);
+        inpEQ.setBounds(0, 0, 600, 50);
+        displayPanel.add(inpEQ);
+
+        eqDisp = new JTextArea("Previous Equations: \n", 3, 5);
+        eqDisp.setLineWrap(true);
+        eqDisp.setEditable(false);
+        eqDisp.setFont(displayFont);
+        eqDisp.setBounds(0, 60, 600, 600);
+        displayPanel.add(eqDisp);
     }
 
-    /**
-     * Adds all necessary buttons to the keyboard by creating each
-     * button and adding it to an ArrayList to store them all,
-     * then looping through that list and adding them to the panel
-     * while also setting the font to a correct size and creating
-     * action listeners for all buttons.
-     */
+
     protected void addButtonsToButtonPanel() {
-        // Creates the new ArrayList to store the buttons
         ArrayList<JButton> buttonList = new ArrayList<JButton>();
 
-        // Row one of buttons on the keyboard
         JButton plus = new JButton("+"); buttonList.add(plus);
         JButton minus = new JButton("-"); buttonList.add(minus);
         JButton multiply = new JButton("*"); buttonList.add(multiply);
@@ -192,7 +152,6 @@ public class CalculatorView implements ActionListener {
         //JButton squared = new JButton("x^2"); buttonList.add(squared);
         JButton sqrt = new JButton("sqrt"); buttonList.add(sqrt);
 
-        // Row three of buttons on the keyboard
         JButton four = new JButton(Integer.toString(4)); buttonList.add(four);
         JButton five = new JButton(Integer.toString(5)); buttonList.add(five);
         JButton six = new JButton(Integer.toString(6)); buttonList.add(six);
@@ -200,7 +159,6 @@ public class CalculatorView implements ActionListener {
         JButton cosine = new JButton("cos()"); buttonList.add(cosine);
         JButton tan = new JButton("tan()"); buttonList.add(tan);
 
-        // Row four of buttons on the keyboard
         JButton one = new JButton(Integer.toString(1)); buttonList.add(one);
         JButton two = new JButton(Integer.toString(2)); buttonList.add(two);
         JButton three = new JButton(Integer.toString(3)); buttonList.add(three);
@@ -208,15 +166,12 @@ public class CalculatorView implements ActionListener {
         JButton ln = new JButton("ln()"); buttonList.add(ln);
         JButton e = new JButton("e"); buttonList.add(e);
 
-        // Row five of buttons on the keyboard
         JButton period = new JButton("."); buttonList.add(period);
         JButton zero = new JButton(Integer.toString(0)); buttonList.add(zero);
         JButton negative = new JButton("(-)"); buttonList.add(negative);
         JButton x = new JButton("x"); buttonList.add(x);
-        //JButton enter = new JButton("Enter"); buttonList.add(enter);
         JButton graph = new JButton("Graph"); buttonList.add(graph);
 
-        // Row six of buttons on the keyboard
         JButton delete = new JButton("Delete"); buttonList.add(delete);
         //JButton clear = new JButton("Clear"); buttonList.add(clear);
         JButton clearAll = new JButton("<html>" + "Clear" + "<br>" + "All" + "<html>"); buttonList.add(clearAll);
@@ -228,10 +183,8 @@ public class CalculatorView implements ActionListener {
         JButton defintegral = new JButton("∮"); buttonList.add(defintegral);
         JButton ftc = new JButton("FTC"); buttonList.add(ftc);
 
-        // Creates a new font so the buttons have larger text than everything else
         Font f = new Font("Dialogue", Font.PLAIN, 22);
 
-        // Loops through the button list, sets the font, adds listeners, then adds them to the panel
         for (int j = 0; j < buttonList.size(); j++) {
             JButton temp = buttonList.get(j);
             temp.setFont(f);
@@ -241,10 +194,6 @@ public class CalculatorView implements ActionListener {
         }
     }
 
-    /**
-     * Adds everything necessary to the graphPanel, including a text area
-     * to display the current equation, and a panel to draw the graph in.
-     */
     protected void addToGraphPanel() {
         // Creates a text area for the input equations and adds it to the graphPanel
         graphEquation = new JTextArea("Graph: Y = ", 600, 50);
@@ -253,7 +202,6 @@ public class CalculatorView implements ActionListener {
         graphEquation.setBounds(0, 0, 600, 50);
         graphPanel.add(graphEquation);
 
-        // Creates a new panel to draw the graph in and adds it to the graphPanel
         graphDisplayPanel = new JPanel();
         graphDisplayPanel.setVisible(true);
         graphDisplayPanel.setLayout(null);
@@ -262,19 +210,11 @@ public class CalculatorView implements ActionListener {
     }
 
 
-    /**
-     * Determine which button was pressed and evaluates it once Enter is pushed, Graphs
-     * it once graph is pushed, Clears everything when Clear All is pushed, and clears
-     * the graph when Clear Graph is pushed, otherwise it just adds the text from the
-     * button to each text area.
-     */
     public void actionPerformed(ActionEvent arg0) {
-        // Gets the button text and instantiates an array of Strings to store the answer
         String result = arg0.getActionCommand();
         String[] fullEquation;
         String[] newText = null;
 
-        // If the user pushes "Enter", evaluate the equation and display it in previous equations
         switch (result) {
             case "Enter":
 
@@ -282,23 +222,19 @@ public class CalculatorView implements ActionListener {
                 String eq = fullEquation[0];
                 String sol = fullEquation[1];
 
-                // Inserts the equation and solution to the text area and adds newlines for readability
-                equationDisplay.insert("\n", 22);
-                equationDisplay.insert(sol, 22);
-                equationDisplay.insert(" = ", 22);
-                equationDisplay.insert(eq, 22);
-                equationDisplay.insert("\n", 22);
-                equationDisplay.insert("\n", 22);
-                inputEquation.setText("");
+                eqDisp.insert("\n", 22);
+                eqDisp.insert(sol, 22);
+                eqDisp.insert(" = ", 22);
+                eqDisp.insert(eq, 22);
+                eqDisp.insert("\n", 22);
+                eqDisp.insert("\n", 22);
+                inpEQ.setText("");
 
-                // If the list of equations gets longer than the given screen size clear the
-                // screen of previous equations and start over
-                if (equationDisplay.getLineCount() > 24) {
-                    equationDisplay.setText(eq + " = " + sol);
-                    equationDisplay.append("\n");
+                if (eqDisp.getLineCount() > 24) {
+                    eqDisp.setText(eq + " = " + sol);
+                    eqDisp.append("\n");
                 }
                 break;
-            // If the user pushes the "Graph" button graph the equation if they are on the graphPanel
             case "FTC":
                 String coordinates[] = calcControl.update("Graph");
                 Scanner s = new Scanner(System.in);
@@ -314,7 +250,6 @@ public class CalculatorView implements ActionListener {
                 graph();
                 clearAll(newText,result);
                 break;
-            // If the user pushes "Clear All" reset all text areas to their original state
             case "d/dx":
                 drawPoints(indefiniteDerivative());
                 clearAll(newText,result);
@@ -346,26 +281,21 @@ public class CalculatorView implements ActionListener {
             case "<html>" + "Clear" + "<br>" + "All" + "<html>":
                 clearAll(newText, result);
                 break;
-            // If the user pushes "Clear Graph" reset the graph if it is showing
             case "<html>" + "Clear" + "<br>" + "Graph" + "<html>":
                 if (graphDisplayPanel.isShowing()) {
                     clearGraph();
                     drawGrid();
                 }
                 break;
-            // Otherwise add the input to the equation stored in the model
             default:
                 newText = calcControl.update(result);
-                inputEquation.setText(newText[0]);
+                inpEQ.setText(newText[0]);
                 graphEquation.setText(newText[0]);
                 break;
         }
     }
 
-    /**
-     * Draws the grid of the graph using a set size that we
-     * determined based on the size of the panel.
-     */
+
     public void drawGrid() {
         g.setColor(Color.gray);
         int boxSize = 30;
@@ -379,11 +309,7 @@ public class CalculatorView implements ActionListener {
         }
     }
 
-    /**
-     * Draws the grid for the graph and then, given the array of coordinates, plots
-     * the points in the correct place in the graph after setting the color to red
-     * so it shows up on the graph better.
-     */
+
     public void drawPoints(String[] coordinates) {
         drawGrid();
         Random rand = new Random();
@@ -487,7 +413,7 @@ public class CalculatorView implements ActionListener {
 
     public String[] indefiniteIntegral() {
         canPOI = false;
-        String[] coordinates = calcControl.update("Graph");
+        String[] coordinates = calcControl.update("Graph"); //gets the function
         double[] coordinatesDouble = new double[coordinates.length];
         double[] coordinatesIntegral = new double[coordinates.length];
 
@@ -584,7 +510,7 @@ public class CalculatorView implements ActionListener {
     public String[] definiteDerivative (String[] coordinates) {
         //canPOI = false;
         double[] coordinatesDouble = new double[coordinates.length];
-
+        //converts the String array into a double array
         if (graphDisplayPanel.isShowing()) {
 
             for (int i = 0; i < coordinates.length; i++) {
@@ -593,12 +519,13 @@ public class CalculatorView implements ActionListener {
             double[] coordinatesDerivative = new double[coordinates.length - 1];
             for (int i = 0; i < coordinatesDerivative.length; i++) {
                 coordinatesDerivative[i] = (30 * (coordinatesDouble[i + 1] - coordinatesDouble[i]) / (i + 1 - i));
+                //used a scale factor of 30 to graph the function
             }
 
 
             String[] derCoordinates = new String[coordinatesDerivative.length];
             for (int i = 0; i < derCoordinates.length; i++) {
-                derCoordinates[i] = coordinatesDerivative[i] + "";
+                derCoordinates[i] = coordinatesDerivative[i] + ""; //turn it into a String array
             }
             return derCoordinates;
         }
@@ -609,9 +536,9 @@ public class CalculatorView implements ActionListener {
     public void clearAll (String[]newText, String result) {
         canPOI = true;
         newText = calcControl.update(result);
-        inputEquation.setText(newText[0]);
+        inpEQ.setText(newText[0]);
         graphEquation.setText(newText[0]);
-        equationDisplay.setText("Previous equations: ");
+        eqDisp.setText("Previous equations: ");
     }
 
 }
