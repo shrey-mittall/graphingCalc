@@ -6,16 +6,9 @@ import java.util.Random;
 import java.util.Scanner;
 
 /**
- * CalculatorDisplay.java
+ * @author Shrey Mittal and Suchit Bandaram
  *
- * CS 204 Final Project- Graphing Calculator
- *
- * @author  Abby Lewis, Jamaica Lammi, Danny Hanson, Sam Keyes
- *
- * Class for how the calculator is displayed within the window.
- * It creates the appropriate frame and panels, then draws from
- * other classes and puts the necessary buttons and functions
- * into them.
+ * Class which creates the viewframe for the calculator and sets up all of the buttons, functions, and most of the functions of the calculator.
  *
  */
 
