@@ -320,7 +320,6 @@ public class CalculatorModel {
         size++;
     }
 
-
     /**
      * Adds the "x" variable
      */
