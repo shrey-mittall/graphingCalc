@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="51fc762e-2ac6-49f9-8a49-f5682d387108" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/graphingCalc/CalculatorView.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/graphingCalc/CalculatorView.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CalculatorView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CalculatorView.java" afterDir="false" />
-    </list>
+    <list default="true" id="51fc762e-2ac6-49f9-8a49-f5682d387108" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -91,7 +86,7 @@
       <workItem from="1576627299954" duration="631000" />
       <workItem from="1576632726416" duration="13000" />
       <workItem from="1576718620918" duration="13963000" />
-      <workItem from="1576737118197" duration="527000" />
+      <workItem from="1576737118197" duration="612000" />
     </task>
     <servers />
   </component>
