@@ -306,18 +306,22 @@ public class CalculatorView implements ActionListener {
             // If the user pushes the "Graph" button graph the equation if they are on the graphPanel
             case "Graph":
                 graph();
+                clearAll(newText,result);
                 break;
             // If the user pushes "Clear All" reset all text areas to their original state
             case "d/dx":
                 drawPoints(indefiniteDerivative());
+                clearAll(newText,result);
                 break;
 
             case "d^2/dx":
                 drawPoints(secondDerivative());
+                clearAll(newText,result);
                 break;
 
             case "∫":
                 drawPoints(indefiniteIntegral());
+                clearAll(newText,result);
                 break;
 
             case "∮":
